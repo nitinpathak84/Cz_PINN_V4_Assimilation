@@ -19,7 +19,7 @@ def sample_time(cfg, n, device):
     t0, t1 = float(cfg.time.t_min), float(cfg.time.t_max)
     return (torch.rand(n, 1, device=device) * (t1 - t0) + t0)
 
-@hydra.main(version_base="1.3", config_path="conf", config_name="config_v4_assim.yaml")
+@hydra.main(version_base="1.3", config_path="../conf", config_name="config_v4_assim.yaml")
 def main(cfg: DictConfig):
     DistributedManager.initialize()
     dist = DistributedManager()
