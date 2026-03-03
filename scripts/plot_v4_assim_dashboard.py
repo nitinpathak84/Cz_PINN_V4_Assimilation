@@ -85,7 +85,7 @@ def main():
     print("Using checkpoint:", ckpt_path)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    ckpt = torch.load(ckpt_path, map_location=device)
+    ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
     cfg = ckpt["cfg"]
 
     # Build and load model
