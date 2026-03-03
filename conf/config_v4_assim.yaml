@@ -1,0 +1,89 @@
+run:
+  seed: 42
+  steps: 30000
+  plot_every: 500
+  out_dir: "./outputs"
+
+time:
+  t_min: 0.0
+  t_max: 3600.0
+
+geometry:
+  R_cr: 0.220
+  h_m: 0.180
+  R_c: 0.150
+  H_s: 0.300
+  R_w: 0.450
+  z_top: 0.650
+  bc_thickness: 1.0e-4
+
+physics:
+  # Melt (effective)
+  rho_m: 2500.0
+  cp_m: 1000.0
+  k_m: 35.0
+
+  # Crystal
+  rho_s: 2330.0
+  cp_s: 700.0
+  k_s: 120.0
+
+  # Radiation (effective)
+  sigma: 5.670374419e-8
+  eps_m0: 0.30
+  eps_s0: 0.75
+  T_env: 800.0
+
+  # Axis handling
+  r_eps: 1.0e-4
+
+  # Optional initial condition anchor (stabilizer)
+  T_init: 1450.0
+
+training:
+  lr: 1.0e-3
+  lr_decay: 0.9999871767586216
+  max_grad_norm: 1.0
+
+  # collocation points per step
+  n_int_melt: 6000
+  n_int_crystal: 6000
+  n_bc_melt_free: 3000
+  n_bc_crystal_side: 3000
+  n_bc_interface: 3000
+  n_bc_axis: 3000
+
+  # sensor minibatch
+  n_sensors_per_step: 32
+  n_time_per_sensor: 4
+
+  # weights
+  w_pde_m: 1.0
+  w_pde_s: 1.0
+  w_rad_m: 1.0
+  w_rad_s: 1.0
+  w_int_T: 10.0
+  w_int_flux: 10.0
+  w_axis: 1.0
+  w_ic: 0.2          # initial condition anchor weight
+  w_sensors: 50.0
+  w_bias_reg: 1.0e-3
+  w_drift_reg: 1.0e-4
+
+drift:
+  enabled: true
+  hidden: 64
+  layers: 3
+  max_delta_eps: 0.15
+
+sensors:
+  meta_path: "data/sensors.csv"
+  ts_path: "data/sensor_timeseries.csv"
+  id_col: "sensor_id"
+  time_col: "t"
+  value_col: "value"
+  field: "Ts"     # "Tm" or "Ts"
+
+inference:
+  nr: 200
+  nz: 200
