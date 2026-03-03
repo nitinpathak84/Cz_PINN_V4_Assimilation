@@ -4,6 +4,10 @@ run:
   plot_every: 500
   out_dir: "./outputs"
 
+model:
+  num_layers: 6
+  layer_size: 512
+
 time:
   t_min: 0.0
   t_max: 3600.0
